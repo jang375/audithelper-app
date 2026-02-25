@@ -1,28 +1,167 @@
-<!doctype html><html><head><meta charset="UTF-8"/><title>AuditHelper Pro v8.8</title><link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css"/><style>* { box-sizing: border-box; }
-        body { padding: 10px; background-color: #f0f2f5; font-family: 'Segoe UI', 'Malgun Gothic', sans-serif; color: #333; overflow-x: hidden; }
-        .container { width: 100%; max-width: 100%; margin: 0 auto; }
-        h2 { color: #217346; font-size: 15px; text-align: center; margin-bottom: 12px; border-bottom: 2px solid #217346; padding-bottom: 8px; font-weight: bold; }
-        .card { background: white; border-radius: 8px; padding: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 12px; border-left: 4px solid #ccc; width: 100%; }
-        .step1 { border-left-color: #0078d4; }
-        .step2 { border-left-color: #7b1fa2; }
-        .card-title { font-size: 10.5px; font-weight: bold; margin-bottom: 10px; display: block; }
-        .step1-title { color: #0078d4; }
-        .step2-title { color: #7b1fa2; }
-        .sub-group { background: #f9f9f9; padding: 8px; border-radius: 6px; margin-bottom: 8px; border: 1px solid #eee; width: 100%; }
-        .sub-label { font-size: 8.5px; font-weight: bold; color: #666; margin-bottom: 6px; display: block; border-bottom: 1px solid #ddd; padding-bottom: 2px; }
-        .grid-row { display: flex; gap: 6px; margin-bottom: 6px; align-items: flex-end; flex-wrap: wrap; }
-        .input-group { flex: 1 1 120px; display: flex; flex-direction: column; min-width: 0; }
-        .col-box { flex: 1 1 32px; display: flex; flex-direction: column; min-width: 0; }
-        label { font-size: 8.5px; color: #555; margin-bottom: 3px; font-weight: 600; white-space: nowrap; }
-        select, input { width: 100%; padding: 4px; font-size: 10px; border: 1px solid #ccd1d9; border-radius: 4px; height: 26px; }
-        .range-btn { width: 100%; font-size: 9px; padding: 5px; margin-top: 2px; cursor: pointer; background: #fff; border: 1px solid #0078d4; color: #0078d4; border-radius: 4px; font-weight: bold; }
-        .btn-group { display: flex; gap: 4px; margin-top: 8px; flex-wrap: wrap; }
-        .ms-Button { flex: 1 1 70px; padding: 7px 0; border: none; font-weight: 600; cursor: pointer; border-radius: 4px; font-size: 9.5px; color: white; }
-        .btn-blue { background-color: #0078d4; }
-        .btn-green { background-color: #217346; }
-        .btn-purple { background-color: #7b1fa2; }
-        .btn-verify { background-color: #d13438; }
-        #report-area { margin-top: 12px; padding: 10px; border: 1px solid #d1d8e0; font-size: 10px; background: #fff; border-radius: 8px; }
-        .item-list { list-style: none; padding: 0; max-height: 200px; overflow-y: auto; margin-top: 8px; }
-        .item-list li { padding: 8px; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: background 0.2s; }
-        .item-list li:hover { background-color: #f5faff; }</style><script defer="defer" src="main.js"></script></head><body><div class="container"><h2>📊 AuditHelper Pro v8.8</h2><div style="text-align: right; margin-bottom: 10px;"><button id="refresh-sheets" style="font-size: 9px; padding: 3px 6px;">🔄 시트 리스트 갱신</button></div><div class="card step1"><span class="card-title step1-title">1단계: 회사제시 ➔ 정산표 동기화</span><div class="sub-group"><span class="sub-label">SOURCE: 회사제시 데이터</span><div class="grid-row"><div class="input-group"><label>시트</label><select id="s1-src-sheet"></select></div><div class="input-group"><label>범위</label><input id="s1-src-range" value="A1:Z1000"></div></div><button class="range-btn" id="s1-src-range-btn">🎯 소스 범위 자동입력</button><div class="grid-row" style="margin-top:8px;"><div class="col-box"><label>계정열</label><input type="number" id="s1-src-acc" value="2"></div><div class="col-box"><label>당기열</label><input type="number" id="s1-src-cur" value="3"></div><div class="col-box"><label>전기열</label><input type="number" id="s1-src-pri" value="4"></div></div></div><div class="sub-group"><span class="sub-label">TARGET: 정산표(TB) 데이터</span><div class="grid-row"><div class="input-group"><label>시트</label><select id="s1-tgt-sheet"></select></div><div class="input-group"><label>범위</label><input id="s1-tgt-range" value="A1:Z1000"></div></div><button class="range-btn" id="s1-tgt-range-btn">🎯 대상 범위 자동입력</button><div class="grid-row" style="margin-top:8px;"><div class="col-box"><label>계정열</label><input type="number" id="s1-tgt-acc" value="1"></div><div class="col-box"><label>당기열</label><input type="number" id="s1-tgt-cur" value="3"></div><div class="col-box"><label>전기열</label><input type="number" id="s1-tgt-pri" value="2"></div><div class="col-box" style="flex-basis: 40px;"><label>최종열</label><input type="number" id="s1-tgt-fin" value="6"></div></div></div><div class="btn-group"><button id="s1-diag" class="ms-Button btn-blue">계정진단</button> <button id="s1-sync-cur" class="ms-Button btn-green">당기동기화</button> <button id="s1-sync-pri" class="ms-Button btn-green" style="background-color: #107c10;">전기동기화</button></div><button id="s1-verify" class="ms-Button btn-verify" style="width: 100%; margin-top: 5px;">📍 1단계 세로 수식 복구</button></div><div class="card step2"><span class="card-title step2-title">2단계: 정산표 ➔ 공시용(FS) 전송</span><div class="sub-group"><div class="grid-row"><div class="input-group"><label>원본(정산표)</label><select id="s2-src-sheet"></select></div><div class="input-group"><label>범위</label><input id="s2-src-range" value="A1:Z1000"></div></div><button class="range-btn" id="s2-src-range-btn">🎯 정산표 범위 자동입력</button></div><div class="sub-group"><div class="grid-row"><div class="input-group"><label>대상(공시용)</label><select id="s2-tgt-sheet"></select></div><div class="input-group"><label>범위</label><input id="s2-tgt-range" value="A1:Z1000"></div></div><button class="range-btn" id="s2-tgt-range-btn">🎯 공시용 범위 자동입력</button></div><div class="sub-group"><span class="sub-label">상세 열 설정</span><div class="grid-row"><div class="col-box"><label>원-계</label><input type="number" id="s2-src-acc" value="2"></div><div class="col-box"><label>원-전</label><input type="number" id="s2-src-pri" value="5"></div><div class="col-box"><label>원-최</label><input type="number" id="s2-src-cur" value="8"></div><div class="col-box" style="flex-basis: 40px;"><label>대-계</label><input type="number" id="s2-tgt-acc" value="2"></div></div></div><div class="btn-group"><button id="s2-diag" class="ms-Button btn-blue">공시진단</button> <button id="s2-sync-cur" class="ms-Button btn-purple">당기전송(연동)</button> <button id="s2-sync-pri" class="ms-Button btn-purple" style="background-color: #4a148c;">전기전송(연동)</button></div><button id="s2-verify" class="ms-Button btn-verify" style="width: 100%; margin-top: 5px;">📍 2단계 계층형 합계 수식 복구</button></div><div id="report-area"><div id="summary-text" style="font-weight: bold; color: #217346;">분석을 시작하세요.</div><ul id="mismatch-list" class="item-list"></ul></div></div><script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script></body></html>
+<!doctype html><html><head><meta charset="UTF-8"/><title>AuditHelper Pro v9.1</title><script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script><link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css"/><style>* { box-sizing: border-box; }
+    body {
+      padding: 10px;
+      background-color: #f0f2f5;
+      font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+      color: #333;
+      overflow-x: hidden;
+    }
+    .container { width: 100%; max-width: 100%; margin: 0 auto; }
+
+    h2 {
+      color: #217346; font-size: 15px; text-align: center;
+      margin-bottom: 12px; border-bottom: 2px solid #217346;
+      padding-bottom: 8px; font-weight: bold;
+    }
+
+    .card {
+      background: white; border-radius: 8px; padding: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 12px; border-left: 4px solid #ccc; width: 100%;
+    }
+    .step1 { border-left-color: #0078d4; }
+    .step2 { border-left-color: #7b1fa2; }
+
+    .card-title { font-size: 10.5px; font-weight: bold; margin-bottom: 10px; display: block; }
+    .step1-title { color: #0078d4; }
+    .step2-title { color: #7b1fa2; }
+
+    .sub-group {
+      background: #f9f9f9; padding: 8px; border-radius: 6px;
+      margin-bottom: 8px; border: 1px solid #eee; width: 100%;
+    }
+    .sub-label {
+      font-size: 8.5px; font-weight: bold; color: #666;
+      margin-bottom: 6px; display: block;
+      border-bottom: 1px solid #ddd; padding-bottom: 2px;
+    }
+
+    .grid-row { display: flex; gap: 6px; margin-bottom: 6px; align-items: flex-end; flex-wrap: wrap; }
+    .input-group { flex: 1 1 120px; display: flex; flex-direction: column; min-width: 0; }
+    .col-box { flex: 1 1 32px; display: flex; flex-direction: column; min-width: 0; }
+
+    label { font-size: 8.5px; color: #555; margin-bottom: 3px; font-weight: 600; white-space: nowrap; }
+    select, input { width: 100%; padding: 4px; font-size: 10px; border: 1px solid #ccd1d9; border-radius: 4px; height: 26px; }
+
+    .range-btn {
+      width: 100%; font-size: 9px; padding: 5px; margin-top: 2px;
+      cursor: pointer; background: #fff;
+      border: 1px solid #0078d4; color: #0078d4;
+      border-radius: 4px; font-weight: bold;
+    }
+
+    .btn-group { display: flex; gap: 4px; margin-top: 8px; flex-wrap: wrap; }
+    .ms-Button {
+      flex: 1 1 70px; padding: 7px 0; border: none;
+      font-weight: 600; cursor: pointer; border-radius: 4px;
+      font-size: 9.5px; color: white;
+      transition: opacity 0.2s;
+    }
+    .ms-Button:disabled { cursor: not-allowed; }
+    .btn-blue { background-color: #0078d4; }
+    .btn-green { background-color: #217346; }
+    .btn-purple { background-color: #7b1fa2; }
+    .btn-verify { background-color: #d13438; }
+
+    #report-area {
+      margin-top: 12px; padding: 10px;
+      border: 1px solid #d1d8e0; font-size: 10px;
+      background: #fff; border-radius: 8px;
+    }
+
+    .item-list { list-style: none; padding: 0; max-height: 200px; overflow-y: auto; margin-top: 8px; }
+    .item-list li {
+      padding: 8px; border-bottom: 1px solid #f0f0f0;
+      cursor: pointer; transition: background 0.2s;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .item-list li:hover { background-color: #f5faff; }
+    .acc-name { font-weight: 600; color: #333; }
+    .diag-msg { font-size: 9px; color: #d13438; }
+
+    /* ── 손익 규칙 편집기 ── */
+    .income-rules-section {
+      margin-top: 8px;
+      border: 1px solid #f5c2c4;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .income-rules-section > summary {
+      background: #fff5f5;
+      padding: 6px 8px;
+      font-size: 9px;
+      font-weight: bold;
+      color: #d13438;
+      cursor: pointer;
+      user-select: none;
+      list-style: none;
+    }
+    .income-rules-section > summary::before {
+      content: "▶ ";
+      font-size: 8px;
+    }
+    .income-rules-section[open] > summary::before {
+      content: "▼ ";
+    }
+    .income-rules-section > summary:hover { background: #ffe8e8; }
+    .income-rules-inner { padding: 6px; }
+    .rule-row {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      margin-bottom: 4px;
+      flex-wrap: nowrap;
+    }
+    .rule-row input {
+      flex: 1 1 55px;
+      font-size: 8.5px;
+      padding: 2px 3px;
+      height: 20px;
+      min-width: 40px;
+      border: 1px solid #ccd1d9;
+      border-radius: 3px;
+    }
+    .rule-label {
+      font-size: 8px;
+      font-weight: bold;
+      color: #666;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .rule-del-btn {
+      font-size: 9px;
+      padding: 1px 4px;
+      cursor: pointer;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      color: #d13438;
+      flex-shrink: 0;
+      height: 20px;
+    }
+    .rule-add-btn {
+      width: 100%;
+      font-size: 9px;
+      padding: 4px;
+      margin-top: 4px;
+      cursor: pointer;
+      background: #f0fff0;
+      border: 1px solid #217346;
+      color: #217346;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    .rule-header {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 3px;
+      padding-bottom: 3px;
+      border-bottom: 1px solid #eee;
+    }
+    .rule-header span {
+      font-size: 7.5px;
+      color: #999;
+      flex: 1 1 55px;
+      text-align: center;
+    }
+    .rule-header .del-placeholder { width: 28px; flex-shrink: 0; }</style><script defer="defer" src="main.js"></script></head><body><div class="container"><h2>📊 AuditHelper Pro v9.1</h2><div style="text-align: right; margin-bottom: 10px;"><button id="refresh-sheets" style="font-size: 9px; padding: 3px 6px;">🔄 시트 리스트 갱신</button></div><div class="card step1"><span class="card-title step1-title">1단계: 회사제시 ➔ 정산표 동기화</span><div class="sub-group"><span class="sub-label">SOURCE: 회사제시 데이터</span><div class="grid-row"><div class="input-group"><label>시트</label><select id="s1-src-sheet"></select></div><div class="input-group"><label>범위</label><input id="s1-src-range" value="A1:Z1000"></div></div><button class="range-btn" id="s1-src-range-btn">🎯 소스 범위 자동입력</button><div class="grid-row" style="margin-top:8px;"><div class="col-box"><label>계정열</label><input type="number" id="s1-src-acc" value="2" min="1"></div><div class="col-box"><label>당기열</label><input type="number" id="s1-src-cur" value="3" min="1"></div><div class="col-box"><label>전기열</label><input type="number" id="s1-src-pri" value="4" min="1"></div></div></div><div class="sub-group"><span class="sub-label">TARGET: 정산표(TB) 데이터</span><div class="grid-row"><div class="input-group"><label>시트</label><select id="s1-tgt-sheet"></select></div><div class="input-group"><label>범위</label><input id="s1-tgt-range" value="A1:Z1000"></div></div><button class="range-btn" id="s1-tgt-range-btn">🎯 대상 범위 자동입력</button><div class="grid-row" style="margin-top:8px;"><div class="col-box"><label>계정열</label><input type="number" id="s1-tgt-acc" value="1" min="1"></div><div class="col-box"><label>당기열</label><input type="number" id="s1-tgt-cur" value="3" min="1"></div><div class="col-box"><label>전기열</label><input type="number" id="s1-tgt-pri" value="2" min="1"></div><div class="col-box" style="flex-basis: 40px;"><label>최종열</label><input type="number" id="s1-tgt-fin" value="6" min="1"></div></div></div><div class="btn-group"><button id="s1-diag" class="ms-Button btn-blue">계정진단</button> <button id="s1-sync-cur" class="ms-Button btn-green">당기동기화</button> <button id="s1-sync-pri" class="ms-Button btn-green" style="background-color: #107c10;">전기동기화</button></div><button id="s1-verify" class="ms-Button btn-verify" style="width: 100%; margin-top: 5px;">📍 1단계 세로 수식 복구</button><details class="income-rules-section"><summary>손익계산서 가감 수식 규칙 (클릭하여 펼치기)</summary><div class="income-rules-inner"><div class="rule-header"><span>결과 키워드</span> <span style="flex:0 0 10px;"></span> <span>+ 항목 키워드</span> <span style="flex:0 0 10px;"></span> <span>- 항목 키워드</span> <span class="del-placeholder"></span></div><div id="income-rules-container"></div><button class="rule-add-btn" id="add-income-rule">+ 규칙 추가</button></div></details></div><div class="card step2"><span class="card-title step2-title">2단계: 정산표 ➔ 공시용(FS) 전송</span><div class="sub-group"><div class="grid-row"><div class="input-group"><label>원본(정산표)</label><select id="s2-src-sheet"></select></div><div class="input-group"><label>범위</label><input id="s2-src-range" value="A1:Z1000"></div></div><button class="range-btn" id="s2-src-range-btn">🎯 정산표 범위 자동입력</button></div><div class="sub-group"><div class="grid-row"><div class="input-group"><label>대상(공시용)</label><select id="s2-tgt-sheet"></select></div><div class="input-group"><label>범위</label><input id="s2-tgt-range" value="A1:Z1000"></div></div><button class="range-btn" id="s2-tgt-range-btn">🎯 공시용 범위 자동입력</button></div><div class="sub-group"><span class="sub-label">상세 열 설정</span><div class="grid-row"><div class="col-box"><label>원-계</label><input type="number" id="s2-src-acc" value="2" min="1"></div><div class="col-box"><label>원-전</label><input type="number" id="s2-src-pri" value="5" min="1"></div><div class="col-box"><label>원-최</label><input type="number" id="s2-src-cur" value="8" min="1"></div><div class="col-box" style="flex-basis: 40px;"><label>대-계</label><input type="number" id="s2-tgt-acc" value="2" min="1"></div></div></div><div class="btn-group"><button id="s2-diag" class="ms-Button btn-blue">공시진단</button> <button id="s2-sync-cur" class="ms-Button btn-purple">당기전송(연동)</button> <button id="s2-sync-pri" class="ms-Button btn-purple" style="background-color: #4a148c;">전기전송(연동)</button></div><button id="s2-verify" class="ms-Button btn-verify" style="width: 100%; margin-top: 5px;">📍 2단계 계층형 합계 수식 복구</button></div><div id="report-area"><div id="summary-text" style="font-weight: bold; color: #217346;">분석을 시작하세요.</div><ul id="mismatch-list" class="item-list"></ul></div></div><script defer="defer" src="main.js"></script></body></html>
