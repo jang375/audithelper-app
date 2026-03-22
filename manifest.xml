@@ -5,7 +5,7 @@
            xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
            xsi:type="TaskPaneApp">
   <Id>b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e</Id>
-  <Version>1.0.8.0</Version>
+  <Version>9.2.0.0</Version>
   <ProviderName>Samjin</ProviderName>
   <DefaultLocale>ko-KR</DefaultLocale>
   <DisplayName DefaultValue="AuditHelper Pro"/>

@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset="UTF-8"/><title>AuditHelper Pro v9.1</title><script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script><link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css"/><style>* { box-sizing: border-box; }
+<!doctype html><html><head><meta charset="UTF-8"/><title>AuditHelper Pro v9.2</title><script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script><link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css"/><style>* { box-sizing: border-box; }
     body {
       padding: 10px;
       background-color: #f0f2f5;
@@ -164,4 +164,118 @@
       flex: 1 1 55px;
       text-align: center;
     }
-    .rule-header .del-placeholder { width: 28px; flex-shrink: 0; }</style><script defer="defer" src="main.js"></script></head><body><div class="container"><h2>📊 AuditHelper Pro v9.1</h2><div style="text-align: right; margin-bottom: 10px;"><button id="refresh-sheets" style="font-size: 9px; padding: 3px 6px;">🔄 시트 리스트 갱신</button></div><div class="card step1"><span class="card-title step1-title">1단계: 회사제시 ➔ 정산표 동기화</span><div class="sub-group"><span class="sub-label">SOURCE: 회사제시 데이터</span><div class="grid-row"><div class="input-group"><label>시트</label><select id="s1-src-sheet"></select></div><div class="input-group"><label>범위</label><input id="s1-src-range" value="A1:Z1000"></div></div><button class="range-btn" id="s1-src-range-btn">🎯 소스 범위 자동입력</button><div class="grid-row" style="margin-top:8px;"><div class="col-box"><label>계정열</label><input type="number" id="s1-src-acc" value="2" min="1"></div><div class="col-box"><label>당기열</label><input type="number" id="s1-src-cur" value="3" min="1"></div><div class="col-box"><label>전기열</label><input type="number" id="s1-src-pri" value="4" min="1"></div></div></div><div class="sub-group"><span class="sub-label">TARGET: 정산표(TB) 데이터</span><div class="grid-row"><div class="input-group"><label>시트</label><select id="s1-tgt-sheet"></select></div><div class="input-group"><label>범위</label><input id="s1-tgt-range" value="A1:Z1000"></div></div><button class="range-btn" id="s1-tgt-range-btn">🎯 대상 범위 자동입력</button><div class="grid-row" style="margin-top:8px;"><div class="col-box"><label>계정열</label><input type="number" id="s1-tgt-acc" value="1" min="1"></div><div class="col-box"><label>당기열</label><input type="number" id="s1-tgt-cur" value="3" min="1"></div><div class="col-box"><label>전기열</label><input type="number" id="s1-tgt-pri" value="2" min="1"></div><div class="col-box" style="flex-basis: 40px;"><label>최종열</label><input type="number" id="s1-tgt-fin" value="6" min="1"></div></div></div><div class="btn-group"><button id="s1-diag" class="ms-Button btn-blue">계정진단</button> <button id="s1-sync-cur" class="ms-Button btn-green">당기동기화</button> <button id="s1-sync-pri" class="ms-Button btn-green" style="background-color: #107c10;">전기동기화</button></div><button id="s1-verify" class="ms-Button btn-verify" style="width: 100%; margin-top: 5px;">📍 1단계 세로 수식 복구</button><details class="income-rules-section"><summary>손익계산서 가감 수식 규칙 (클릭하여 펼치기)</summary><div class="income-rules-inner"><div class="rule-header"><span>결과 키워드</span> <span style="flex:0 0 10px;"></span> <span>+ 항목 키워드</span> <span style="flex:0 0 10px;"></span> <span>- 항목 키워드</span> <span class="del-placeholder"></span></div><div id="income-rules-container"></div><button class="rule-add-btn" id="add-income-rule">+ 규칙 추가</button></div></details></div><div class="card step2"><span class="card-title step2-title">2단계: 정산표 ➔ 공시용(FS) 전송</span><div class="sub-group"><div class="grid-row"><div class="input-group"><label>원본(정산표)</label><select id="s2-src-sheet"></select></div><div class="input-group"><label>범위</label><input id="s2-src-range" value="A1:Z1000"></div></div><button class="range-btn" id="s2-src-range-btn">🎯 정산표 범위 자동입력</button></div><div class="sub-group"><div class="grid-row"><div class="input-group"><label>대상(공시용)</label><select id="s2-tgt-sheet"></select></div><div class="input-group"><label>범위</label><input id="s2-tgt-range" value="A1:Z1000"></div></div><button class="range-btn" id="s2-tgt-range-btn">🎯 공시용 범위 자동입력</button></div><div class="sub-group"><span class="sub-label">상세 열 설정</span><div class="grid-row"><div class="col-box"><label>원-계</label><input type="number" id="s2-src-acc" value="2" min="1"></div><div class="col-box"><label>원-전</label><input type="number" id="s2-src-pri" value="5" min="1"></div><div class="col-box"><label>원-최</label><input type="number" id="s2-src-cur" value="8" min="1"></div><div class="col-box" style="flex-basis: 40px;"><label>대-계</label><input type="number" id="s2-tgt-acc" value="2" min="1"></div></div></div><div class="btn-group"><button id="s2-diag" class="ms-Button btn-blue">공시진단</button> <button id="s2-sync-cur" class="ms-Button btn-purple">당기전송(연동)</button> <button id="s2-sync-pri" class="ms-Button btn-purple" style="background-color: #4a148c;">전기전송(연동)</button></div><button id="s2-verify" class="ms-Button btn-verify" style="width: 100%; margin-top: 5px;">📍 2단계 계층형 합계 수식 복구</button></div><div id="report-area"><div id="summary-text" style="font-weight: bold; color: #217346;">분석을 시작하세요.</div><ul id="mismatch-list" class="item-list"></ul></div></div><script defer="defer" src="main.js"></script></body></html>
+    .rule-header .del-placeholder { width: 28px; flex-shrink: 0; }
+    .fs-rules-section {
+      margin-top: 8px;
+      border: 1px solid #d8c2ea;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .fs-rules-section > summary {
+      background: #f6effc;
+      padding: 6px 8px;
+      font-size: 9px;
+      font-weight: bold;
+      color: #7b1fa2;
+      cursor: pointer;
+      user-select: none;
+      list-style: none;
+    }
+    .fs-rules-section > summary::before {
+      content: "▶ ";
+      font-size: 8px;
+    }
+    .fs-rules-section[open] > summary::before {
+      content: "▼ ";
+    }
+    .fs-rules-section > summary:hover { background: #efe4fb; }
+    .rule-note {
+      font-size: 8px;
+      color: #666;
+      margin-bottom: 6px;
+      line-height: 1.35;
+    }
+    .fs-rules-section .rule-header {
+      display: none;
+    }
+    .fs-rule-card {
+      border: 1px solid #e1d0ef;
+      border-radius: 8px;
+      padding: 8px;
+      margin-bottom: 8px;
+      background: #fff;
+    }
+    .fs-rule-card:nth-child(even) {
+      background: #fcf8ff;
+    }
+    .fs-rule-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .fs-rule-card-title {
+      font-size: 8px;
+      font-weight: bold;
+      color: #7b1fa2;
+      background: #f1e7fa;
+      border-radius: 999px;
+      padding: 3px 7px;
+    }
+    .fs-rule-field {
+      margin-bottom: 6px;
+    }
+    .fs-rule-field:last-child {
+      margin-bottom: 0;
+    }
+    .fs-rule-field-label {
+      display: block;
+      font-size: 8px;
+      color: #7b1fa2;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+    .fs-rule-input-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 86px 42px;
+      gap: 4px;
+      align-items: center;
+    }
+    .fs-rule-input-row input,
+    .fs-rule-input-row select {
+      width: 100%;
+      min-width: 0;
+      height: 24px;
+      font-size: 8.5px;
+      padding: 3px 5px;
+      border: 1px solid #ccd1d9;
+      border-radius: 4px;
+    }
+    .fs-rule-append-btn {
+      height: 24px;
+      border: 1px solid #7b1fa2;
+      border-radius: 4px;
+      background: #faf5ff;
+      color: #7b1fa2;
+      font-size: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .fs-rule-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 6px;
+      padding: 5px 7px;
+      border-radius: 6px;
+      background: #f8f1ff;
+      color: #6a1b9a;
+      font-size: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .fs-rule-toggle input {
+      width: auto;
+      height: auto;
+      margin: 0;
+    }</style><script defer="defer" src="main.js"></script></head><body><div class="container"><h2>📊 AuditHelper Pro v9.2</h2><div style="text-align: right; margin-bottom: 10px;"><button id="refresh-sheets" style="font-size: 9px; padding: 3px 6px;">🔄 시트 리스트 갱신</button></div><div class="card step1"><span class="card-title step1-title">1단계: 회사제시 ➔ 정산표 동기화</span><div class="sub-group"><span class="sub-label">SOURCE: 회사제시 데이터</span><div class="grid-row"><div class="input-group"><label>시트</label><select id="s1-src-sheet"></select></div><div class="input-group"><label>범위</label><input id="s1-src-range" value="A1:Z1000"></div></div><button class="range-btn" id="s1-src-range-btn">🎯 소스 범위 자동입력</button><div class="grid-row" style="margin-top:8px;"><div class="col-box"><label>계정열</label><input type="number" id="s1-src-acc" value="2" min="1"></div><div class="col-box"><label>당기열</label><input type="number" id="s1-src-cur" value="3" min="1"></div><div class="col-box"><label>전기열</label><input type="number" id="s1-src-pri" value="4" min="1"></div></div></div><div class="sub-group"><span class="sub-label">TARGET: 정산표(TB) 데이터</span><div class="grid-row"><div class="input-group"><label>시트</label><select id="s1-tgt-sheet"></select></div><div class="input-group"><label>범위</label><input id="s1-tgt-range" value="A1:Z1000"></div></div><button class="range-btn" id="s1-tgt-range-btn">🎯 대상 범위 자동입력</button><div class="grid-row" style="margin-top:8px;"><div class="col-box"><label>계정열</label><input type="number" id="s1-tgt-acc" value="1" min="1"></div><div class="col-box"><label>당기열</label><input type="number" id="s1-tgt-cur" value="3" min="1"></div><div class="col-box"><label>전기열</label><input type="number" id="s1-tgt-pri" value="2" min="1"></div><div class="col-box" style="flex-basis: 40px;"><label>최종열</label><input type="number" id="s1-tgt-fin" value="6" min="1"></div></div></div><div class="btn-group"><button id="s1-diag" class="ms-Button btn-blue">계정진단</button> <button id="s1-sync-cur" class="ms-Button btn-green">당기동기화</button> <button id="s1-sync-pri" class="ms-Button btn-green" style="background-color: #107c10;">전기동기화</button></div><button id="s1-verify" class="ms-Button btn-verify" style="width: 100%; margin-top: 5px;">📍 1단계 세로 수식 복구</button><details class="income-rules-section"><summary>손익계산서 가감 수식 규칙 (클릭하여 펼치기)</summary><div class="income-rules-inner"><div class="rule-header"><span>결과 키워드</span> <span style="flex:0 0 10px;"></span> <span>+ 항목 키워드</span> <span style="flex:0 0 10px;"></span> <span>- 항목 키워드</span> <span class="del-placeholder"></span></div><div id="income-rules-container"></div><button class="rule-add-btn" id="add-income-rule">+ 규칙 추가</button></div></details></div><div class="card step2"><span class="card-title step2-title">2단계: 정산표 ➔ 공시용(FS) 전송</span><div class="sub-group"><div class="grid-row"><div class="input-group"><label>원본(정산표)</label><select id="s2-src-sheet"></select></div><div class="input-group"><label>범위</label><input id="s2-src-range" value="A1:Z1000"></div></div><button class="range-btn" id="s2-src-range-btn">🎯 정산표 범위 자동입력</button></div><div class="sub-group"><div class="grid-row"><div class="input-group"><label>대상(공시용)</label><select id="s2-tgt-sheet"></select></div><div class="input-group"><label>범위</label><input id="s2-tgt-range" value="A1:Z1000"></div></div><button class="range-btn" id="s2-tgt-range-btn">🎯 공시용 범위 자동입력</button></div><div class="sub-group"><span class="sub-label">상세 열 설정</span><div class="grid-row"><div class="col-box"><label>원-계</label><input type="number" id="s2-src-acc" value="2" min="1"></div><div class="col-box"><label>원-전</label><input type="number" id="s2-src-pri" value="5" min="1"></div><div class="col-box"><label>원-최</label><input type="number" id="s2-src-cur" value="8" min="1"></div><div class="col-box" style="flex-basis: 40px;"><label>대-계</label><input type="number" id="s2-tgt-acc" value="2" min="1"></div></div></div><div class="btn-group"><button id="s2-diag" class="ms-Button btn-blue">공시진단</button> <button id="s2-sync-cur" class="ms-Button btn-purple">당기전송(연동)</button> <button id="s2-sync-pri" class="ms-Button btn-purple" style="background-color: #4a148c;">전기전송(연동)</button></div><button id="s2-verify" class="ms-Button btn-verify" style="width: 100%; margin-top: 5px;">📍 2단계 계층형 합계 수식 복구</button><details class="fs-rules-section"><summary>공시용 합산 규칙 (클릭하여 펼치기)</summary><div class="income-rules-inner"><div class="rule-note">예: 현금및현금성자산 = 현금,보통예금,정기예금. 한 규칙 안에서 `선택 → 추가`를 반복하면 여러 계정을 계속 붙일 수 있고, 필요하면 `하위 차감계정 같이 가져오기`로 부모 밑 차감계정도 같이 승계할 수 있습니다.</div><button id="refresh-fs-rule-options" class="range-btn" style="margin-bottom:6px; border-color:#7b1fa2; color:#7b1fa2;">계정 드롭다운 새로고침</button><div class="rule-header"><span>공시 계정 키워드</span> <span style="flex:0 0 10px;"></span> <span>+ 원본 계정 키워드</span> <span style="flex:0 0 10px;"></span> <span>- 원본 계정 키워드</span> <span class="del-placeholder"></span></div><div id="fs-rules-container"></div><datalist id="fs-rule-target-options"></datalist><datalist id="fs-rule-source-options"></datalist><button class="rule-add-btn" id="add-fs-rule" style="border-color:#7b1fa2; color:#7b1fa2; background:#faf5ff;">+ 규칙 추가</button></div></details></div><div id="report-area"><div id="summary-text" style="font-weight: bold; color: #217346;">분석을 시작하세요.</div><ul id="mismatch-list" class="item-list"></ul></div></div><script defer="defer" src="main.js"></script></body></html>
